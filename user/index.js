@@ -10,7 +10,7 @@ app.use(express.json())
 //
 //     return res.status(200).json({mgs: "Hello User"})
 // })
-app.use('/', userRouter)
+app.use('/user', userRouter)
 const server = async ()=>{
     // db connection
     await mongoose.connect(config.MONGODB_URI)

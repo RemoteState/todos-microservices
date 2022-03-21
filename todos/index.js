@@ -7,7 +7,7 @@ const app = express()
 
 app.use(express.json())
 app.use(userDetail)
-app.use('/', router)
+app.use('/todos', router)
 const server = async ()=>{
     // db connection
     await mongoose.connect("mongodb://localhost:27017/todos_ms_todos")

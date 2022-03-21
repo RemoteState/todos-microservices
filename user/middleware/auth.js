@@ -14,7 +14,7 @@ const authenticatedMiddleware = (req, res, next)=>{
         req.user  = {_id, firstName}
         next()
     }catch (err){
-        return res.status(500).json({err})
+        return res.status(500).json({err: err.message})
     }
 
 }
