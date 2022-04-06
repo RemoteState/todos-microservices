@@ -6,13 +6,14 @@ export const userDetail = async (
   next: NextFunction
 ) => {
   try {
-    const user = await axios.get("http://localhost:3001/user/profile", {
-      headers: { authorization: req.headers.authorization } as any,
-    });
-    req.user = user.data.data;
+    if (req.headers.authorization) {
+      const user = await axios.get("http://localhost:3001/user/profile", {
+        headers: { authorization: req.headers.authorization },
+      });
+      req.user = user.data.data;
+    }
     next();
   } catch (err: any) {
-    console.log(err.response, err);
     if (err.response)
       return res
         .status(err.response.status)

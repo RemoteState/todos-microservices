@@ -1,1 +1,0 @@
-export { TokenInterface } from "./token";

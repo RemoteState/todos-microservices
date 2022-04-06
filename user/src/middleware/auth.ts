@@ -2,7 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import { SECRET_TOKEN_KEY } from "../config";
 
-import { TokenInterface } from "../helper";
+interface TokenInterface {
+  _id: string;
+  firstName: string;
+}
 
 export const authenticatedMiddleware = (
   req: Request,
@@ -17,9 +20,12 @@ export const authenticatedMiddleware = (
   }
   const token = authHeader.split(" ")[1];
   try {
-    const decoded = jsonwebtoken.verify(token, SECRET_TOKEN_KEY);
+    const decoded = jsonwebtoken.verify(
+      token,
+      SECRET_TOKEN_KEY
+    ) as TokenInterface;
     // const {_id, firstName}= (<any>decoded)
-    const { _id, firstName } = decoded as TokenInterface;
+    const { _id, firstName } = decoded;
     req.user = { _id, firstName };
     next();
   } catch (err: any) {

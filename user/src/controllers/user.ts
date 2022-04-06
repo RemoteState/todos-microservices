@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { user } from "../models";
 import jwt from "jsonwebtoken";
 import { SECRET_TOKEN_KEY, EXPIRY } from "../config";
-import { TokenInterface } from "../helper";
+
 export class User {
   static async login(req: Request, res: Response) {
     const { email, password } = req.body;
@@ -13,13 +13,18 @@ export class User {
           msg: "Invalid Credentials",
         });
       }
-      const payload: TokenInterface = {
-        _id: userData._id,
-        firstName: userData.firstName,
-      };
-      const token = await jwt.sign(payload, SECRET_TOKEN_KEY, {
-        expiresIn: EXPIRY,
-      });
+
+      const token = await jwt.sign(
+        {
+          _id: userData._id,
+          firstName: userData.firstName,
+        },
+        SECRET_TOKEN_KEY,
+        {
+          expiresIn: EXPIRY,
+        }
+      );
+
       res.status(200).json({
         msg: "You are logged in!",
         token,
